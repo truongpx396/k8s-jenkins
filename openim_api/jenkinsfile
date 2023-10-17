@@ -1,8 +1,8 @@
 pipeline {
 	agent {
-        node {
-            label 'jnlp-slave'
-        }
+        // node {
+        //     label 'jnlp-slave'
+        // }
     }
 	environment {
 	    JOB_ENV = "social" // namespace

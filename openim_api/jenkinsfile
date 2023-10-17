@@ -9,8 +9,8 @@ pipeline {
 	    DEPLOYMENT_NAME = "api"  // k8s deploy name
         CONFIGMAP_NAME = "${DEPLOYMENT_NAME}-conf" // runtime conf
         JOB_NAME = "${JOB_NAME}" // jenkins job name
-		GIT_URL = "" // gitlab or github codebase
-		CREDENTIALS_ID = "" // need configure it in jenkins, will use it's username and password to pull codebase
+		GIT_URL = "https://github.com/truongpx396/Open-IM-Server" // gitlab or github codebase
+		CREDENTIALS_ID = "GitHub" // need configure it in jenkins, will use it's username and password to pull codebase
 		HARBOR_URL = "" // docker harbor url
 		HARBOR_ID = "" // docker harbor id, will use it to login
 		DOCKER_CPU = "100m"

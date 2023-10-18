@@ -83,19 +83,34 @@ pipeline {
         }
         stage('Docker Build') {
              steps {
-                container ('docker') {
-                  withCredentials([usernamePassword(credentialsId: "${HARBOR_ID}", passwordVariable: 'password', usernameVariable: 'username')]) {
-                    sh """
+                // container ('docker') {
+                //   withCredentials([usernamePassword(credentialsId: "${HARBOR_ID}", passwordVariable: 'password', usernameVariable: 'username')]) {
+                //     sh """
+                //       docker build -t ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} -f ${BASEDIR}/deploy/dockerfile/${params.RELEASE_PROJECTS}.Dockerfile .
+                //       docker tag ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
+
+                //       docker login -u ${username} -p ${password} ${HARBOR_URL}
+
+                //       docker push ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
+                //       docker rmi ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
+                //       docker rmi ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
+                //     """
+                //   }
+                // }
+                withDockerRegistry([ credentialsId: "DockerHub", url: "" ]){
+                    sh '''  
+                      echo `Build image ...`
                       docker build -t ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} -f ${BASEDIR}/deploy/dockerfile/${params.RELEASE_PROJECTS}.Dockerfile .
                       docker tag ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
-
-                      docker login -u ${username} -p ${password} ${HARBOR_URL}
-
+                      
+                      echo `Push image ...`
                       docker push ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
+
+                      echo `Start removing image ...1.`
                       docker rmi ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
                       docker rmi ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
-                    """
-                  }
+                      echo `Done removing image!`
+                    '''
                 }
              }
         }

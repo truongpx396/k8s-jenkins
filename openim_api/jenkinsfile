@@ -1,9 +1,10 @@
 pipeline {
-	agent {
+    agent any
+	// agent {
         // node {
         //     label 'jnlp-slave'
         // }
-    }
+    // }
 	environment {
 	    JOB_ENV = "social" // namespace
 	    DEPLOYMENT_NAME = "api"  // k8s deploy name

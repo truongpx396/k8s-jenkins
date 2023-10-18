@@ -98,7 +98,7 @@ pipeline {
                 //   }
                 // }
                 withDockerRegistry([ credentialsId: "DockerHub", url: "" ]){
-                    sh '''  
+                    sh """  
                       echo `Build image ...`
                       docker build -t ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} -f ${BASEDIR}/deploy/dockerfile/${params.RELEASE_PROJECTS}.Dockerfile .
                       docker tag ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM} ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
@@ -110,7 +110,7 @@ pipeline {
                       docker rmi ${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
                       docker rmi ${HARBOR_URL}/${JOB_ENV}/${JOB_NAME}:${CommitHash}-${BUILD_NUM}
                       echo `Done removing image!`
-                    '''
+                    """
                 }
              }
         }

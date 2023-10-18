@@ -99,16 +99,16 @@ pipeline {
                 }
              }
         }
-        stage('Deploy') {
-            steps {
-                container ('helm-kubectl') {
-                   sh """
-                   envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/default-configMap-test.yaml | kubectl apply -f -
-                   envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/default-namespace-test.yaml | kubectl apply -f -
-                   envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/api.yaml | kubectl apply -f - && kubectl rollout status -f -
-                   """
-                }
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         container ('helm-kubectl') {
+        //            sh """
+        //            envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/default-configMap-test.yaml | kubectl apply -f -
+        //            envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/default-namespace-test.yaml | kubectl apply -f -
+        //            envsubst < ${BASEDIR}/deploy/k8sdeployment_dev/api.yaml | kubectl apply -f - && kubectl rollout status -f -
+        //            """
+        //         }
+        //     }
+        // }
     }
 }
